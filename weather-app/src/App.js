@@ -57,7 +57,7 @@ class App extends Component {
     console.log('rendering');
     return (
       <div className="App">
-        <img src={background1} />
+        <img className="background1" src={background1} />
         <div className="App-header">
           <div className="Temp-text"> {this.state.weather}&#176;</div>
           <div className="City-text"> {this.state.city} </div>
