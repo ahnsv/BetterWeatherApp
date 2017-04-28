@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-import "bootswatch/journal/bootstrap.css";
-import { Navbar, NavItem, Nav, Grid, Row, Col } from "react-bootstrap";
+import "bootswatch/readable/bootstrap.css";
+import { Navbar, NavItem, Nav, Grid, Row, Col, FormControl } from "react-bootstrap";
 // import CityList from '../public/city.list.json';
 /*
 {
@@ -20,8 +20,8 @@ const PLACES = [
     lon: -122.45108,
     lat: 37.766602
   }},
-  { name: "Boston",
-    zip: "02135",
+  { name: "Chestnut Hill",
+    zip: "02467",
     coord: {
     lon: -83.789886,
     lat: 30.791861
@@ -50,17 +50,22 @@ class WeatherDisplay extends Component {
     const URL = "http://api.openweathermap.org/data/2.5/weather?q=" +
       zip +
       "&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial";
-    /*const backgroundURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1452866c8cea54acd0075022ef573a07&lat=" + coord.lon + "&lon=" + coord.lat + "&accuracy=1&tags=" + this.state.weatherData.weather[0].main + "&sort=relevance&extras=url_l&format=json";*/
+    const cityNameURL = "http://api.openweathermap.org/data/2.5/weather?q=" + this.input + "&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial";
+    const backgroundURL = "https://api.flickr.com/services/rest/?method=flickr.photos.geo.photosForLocation&api_key=2a62caf5b918200cfe242d1e9e52306f&lat=" + coord.lon + "&lon=" + coord.lat + "&accuracy=11&format=json&nojsoncallback=true";
     fetch(URL).then(res => res.json()).then(json => {
       this.setState({ weatherData: json });
     });
-   //  fetch(backgroundURL).then(res => res.json()).then(json => {
-   //    this.setState({ background: json });
+   //  fetch(cityNameURL).then(res => res.json()).then(json => {
+   //    this.setState({ weatherData: json });
    //  });
+    fetch(backgroundURL).then(res => res.json()).then(json => {
+      this.setState({ background: json });
+    });
   }
   render() {
     const weatherData = this.state.weatherData;
     const background = this.state.background;
+    console.log(background);
     if (!weatherData) return <div>Loading</div>;
     const weather = weatherData.weather[0];
     const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
@@ -93,7 +98,7 @@ class App extends Component {
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              React Simple Weather App
+              Location-Based Weather App
             </Navbar.Brand>
           </Navbar.Header>
         </Navbar>
@@ -113,6 +118,12 @@ class App extends Component {
                   <NavItem key={index} eventKey={index}>{place.name}</NavItem>
                 ))}
               </Nav>
+              <FormControl
+              placeholder="Enter City"
+              bsStyle="input"
+              bsSize="sm"
+              inputRef={ref => { this.input = ref; }}
+              ></FormControl>
             </Col>
             <Col md={8} sm={8}>
               <WeatherDisplay key={activePlace} zip={PLACES[activePlace].zip} coord={PLACES[activePlace].coord}/>
