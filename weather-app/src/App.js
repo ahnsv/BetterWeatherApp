@@ -1,99 +1,124 @@
 import React, { Component } from 'react';
-import background1 from '../public/background1.jpg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootswatch/journal/bootstrap.css";
+import { Navbar, NavItem, Nav, Grid, Row, Col } from "react-bootstrap";
+// import CityList from '../public/city.list.json';
+/*
+{
+  "id": 4183849,
+  "name": "Boston",
+  "country": "US",
+  "coord": {
+    "lon": -83.789886,
+    "lat": 30.791861
+  }
+}
+*/
+
+const PLACES = [
+  { name: "San Francisco", zip: "94016", coord: {
+    lon: -122.45108,
+    lat: 37.766602
+  }},
+  { name: "Boston",
+    zip: "02135",
+    coord: {
+    lon: -83.789886,
+    lat: 30.791861
+  }},
+  { name: "New York", zip: "10016", coord: {
+    lon: -75.499901,
+    lat: 43.000351
+  }},
+  { name: "Seattle", zip: "98111", coord: {
+    lon: -122.332069,
+    lat: 47.606209
+  }}
+];
+
+class WeatherDisplay extends Component {
+  constructor() {
+    super();
+    this.state = {
+      weatherData: null,
+      background: null
+    };
+  }
+  componentDidMount() {
+    const zip = this.props.zip;
+    const coord = this.props.coord;
+    const URL = "http://api.openweathermap.org/data/2.5/weather?q=" +
+      zip +
+      "&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial";
+    /*const backgroundURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1452866c8cea54acd0075022ef573a07&lat=" + coord.lon + "&lon=" + coord.lat + "&accuracy=1&tags=" + this.state.weatherData.weather[0].main + "&sort=relevance&extras=url_l&format=json";*/
+    fetch(URL).then(res => res.json()).then(json => {
+      this.setState({ weatherData: json });
+    });
+   //  fetch(backgroundURL).then(res => res.json()).then(json => {
+   //    this.setState({ background: json });
+   //  });
+  }
+  render() {
+    const weatherData = this.state.weatherData;
+    const background = this.state.background;
+    if (!weatherData) return <div>Loading</div>;
+    const weather = weatherData.weather[0];
+    const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
+    return (
+      <div>
+        {background}
+        <h1>
+          {weather.main} in {weatherData.name}
+          <img src={iconUrl} alt={weatherData.description} />
+        </h1>
+        <p>Current: {weatherData.main.temp}°</p>
+        <p>High: {weatherData.main.temp_max}°</p>
+        <p>Low: {weatherData.main.temp_min}°</p>
+        <p>Wind Speed: {weatherData.wind.speed} mi/hr</p>
+      </div>
+    );  }
+}
 
 class App extends Component {
-
-  constructor(){
+  constructor() {
     super();
-    this.state = {city: 'San Francisco', weather: '27'};
-}
-
-  componentWillMount() {//most useful?
-   // Called  the first time the component is loaded right before the component is added to the page
-   console.log('getting cwm ...' + this.state);
-
-   //   Api.get('example.com/api/users').then((data) => {
-   //listen();
-   //   });
+    this.state = {
+      activePlace: 0,
+    };
   }
-
-  componentDidMount() {
-     // Called after the component has been rendered into the page
-     console.log('getting cdm...' + this.state);
-     //var button = document.getElementById('button');
-     //debugger;
-  }
-
-  componentWillReceiveProps(nextProps) {
-     // Called when the props provided to the component are changed
-     console.log(
-        'getting cwr...' + this.state
-     );
-     if(this.props.userId !== nextProps.userId) {
-        //make api call
-     }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-     // Called when the proprs and/or state change
-     console.log('updating...');
-     console.log(nextState.text);
-  }
-
-  componentWillUnmount() {
-     //unlisten();
-  }
-  clicked(val) {
-     console.log(this.state);
-    this.setState({
-      weather: val});
-    //this.forceUpdate();
-    //console.log(val);
-}
-
   render() {
-    var self = this;
-    console.log('rendering');
+    const activePlace = this.state.activePlace;
     return (
-      <div className="App">
-        <img className="background1" src={background1} />
-        <div className="App-header">
-          <div className="Temp-text"> {this.state.weather}&#176;</div>
-          <div className="City-text"> {this.state.city} </div>
-        </div>
-        <div className="App-body">
-          <input ref="textBox" placeholder="Enter City Name" type="text" />
-          <button onClick={ (e) => {this.clicked();}}>Submit</button>
-          <div className="Day-item" onClick={self.clicked.bind(self, 27)}>
-            <div className="Day-text"> Mon </div>
-            <div className="Day-temp"> 27&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 55)}>
-            <div className="Day-text"> Tue </div>
-            <div className="Day-temp"> 55&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 45)}>
-            <div className="Day-text"> Wed </div>
-            <div className="Day-temp"> 45&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 47)}>
-            <div className="Day-text"> Thu </div>
-            <div className="Day-temp"> 47&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 52)}>
-            <div className="Day-text"> Fri </div>
-            <div className="Day-temp"> 52&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 86)}>
-            <div className="Day-text"> Sat </div>
-            <div className="Day-temp"> 86&#176; </div>
-          </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 97)}>
-            <div className="Day-text"> Sun </div>
-            <div className="Day-temp"> 97&#176; </div>
-          </div>
-        </div>
+      <div>
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              React Simple Weather App
+            </Navbar.Brand>
+          </Navbar.Header>
+        </Navbar>
+        <Grid>
+          <Row>
+            <Col md={4} sm={4}>
+              <h3>Select a city</h3>
+              <Nav
+                bsStyle="pills"
+                stacked
+                activeKey={activePlace}
+                onSelect={index => {
+                  this.setState({ activePlace: index });
+                }}
+              >
+                {PLACES.map((place, index) => (
+                  <NavItem key={index} eventKey={index}>{place.name}</NavItem>
+                ))}
+              </Nav>
+            </Col>
+            <Col md={8} sm={8}>
+              <WeatherDisplay key={activePlace} zip={PLACES[activePlace].zip} coord={PLACES[activePlace].coord}/>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }
