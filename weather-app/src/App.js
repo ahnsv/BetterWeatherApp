@@ -151,6 +151,23 @@ class App extends Component {
       });
     }
 
+   changeTimeFormat(sun){
+     if (sun === this.state.sunrise){
+        var date = new Date(this.state.sunrise*1000);
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var formattedTime = hours + ':' + minutes.substr(-2);
+        this.setState({ sunrise: formattedTime });
+     }
+     else {
+        var date2 = new Date(this.state.sunset*1000);
+        var hours2 = date2.getHours();
+        var minutes2 = "0" + date2.getMinutes();
+        var formattedTime2 = hours2 + ':' + minutes2.substr(-2);
+        this.setState({ sunset: formattedTime2 });
+     }
+   }
+
    changeFormat(format) {
 
        let temperature = 0;
@@ -210,10 +227,12 @@ class App extends Component {
        this._getWeatherInfo();
        this.fetchWeather();
      };
+
    _handleSubmit = (event) => {
     event.preventDefault();
     this._getWeatherInfo(event.target.search.value);
     this.fetchWeather(event.target.search.value);
+    this.changeTimeFormat();
    };
   render() {
     let hr = (new Date).getHours()
@@ -221,7 +240,7 @@ class App extends Component {
     var self = this;
 
     var appHeader = {
-      // backgroundImage: `url(sf.jpg)`,
+      backgroundImage: `url(sf.jpg)`,
       backgroundSize: "cover",
       position: "absolute",
       display: "flex",
@@ -240,45 +259,25 @@ class App extends Component {
     // Create a new JavaScript Date object based on the timestamp
    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
     const {city, country, description, temperature, low, high, humidity, wind, infoStatus, format, weather, pressure, visibility, clouds, sunrise, sunset, forecast} = this.state;
-   //  const {day1, day2, day3, day4, day5} = this.state.forecast;
-    const day1 = this.state.forecast.day1;
-    const day2 = this.state.forecast.day2;
-    const day3 = this.state.forecast.day3;
-    const day4 = this.state.forecast.day4;
-    const day5 = this.state.forecast.day5;
-    const day6 = this.state.forecast.day6;
-
-     var date = new Date(sunrise*1000);
-     var date2 = new Date(sunset*1000);
-     // Hours part from the timestamp
-     var hours = date.getHours();
-     var hours2 = date2.getHours();
-     // Minutes part from the timestamp
-     var minutes = "0" + date.getMinutes();
-     var minutes2 = "0" + date2.getMinutes();
-
-     // Will display time in 10:30:23 format
-     var formattedTime = hours + ':' + minutes.substr(-2);
-     var formattedTime2 = hours2 + ':' + minutes2.substr(-2);
-     this.state.sunrise = formattedTime;
-     this.state.sunset = formattedTime2;
+    const {day1, day2, day3, day4, day5, day6} = this.state.forecast;
 
      let data = null;
      if (infoStatus == 'loaded') {
-      data = <div>
-          <h1>
+      data = <div><b>
+          <h2>
             {description} in {city}, {country} <i className={'wi wi-owm-' + tod + '-' + this.state.weather.id}></i><p>Current: {temperature} ˚{format}</p>
-          </h1>
+          </h2>
           <h3>Low: {low} ˚{format} High: {high} ˚{format}</h3>
           <p>Humidity: {humidity}%  </p>
           <p>Wind Speed: {wind} mi/hr  </p>
           <p>Pressure: {pressure} mb  </p>
           <p>Visibility: {visibility} m </p>
           <p>Clouds: {clouds}  </p>
-          <p>Sunrise: {sunrise} </p>
-          <p>Sunset: {sunset} </p>
+          <p changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunrise}>Sunrise: {sunrise} </p>
+          <p changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunset}>Sunset: {sunset} </p>
           {temperature &&
        <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
+        </b>
         </div>
      } else if (infoStatus == 'loading') {
        data = <div className="info loading">Loading weather data...</div>
@@ -292,13 +291,14 @@ class App extends Component {
             <div className="City-text">
               <div className="weatherQuery">
                     <h1><span>
-                    <form onSubmit={this._handleSubmit}>
+                    <form className="input" onSubmit={this._handleSubmit}>
                       <input
                         className="City-input"
                         type="text"
                         name="search"
                         placeholder="Search a city"
                       />
+                      <button type="submit" bsSize="xsmall">Search</button>
                     </form>
                     </span>
                     </h1>

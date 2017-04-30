@@ -34,7 +34,7 @@
 }
 
 button {
-      width: 100%;
+
       margin: 0;
       padding: 1em 2em;
       border: 0;
@@ -98,4 +98,8 @@ button {
 .Day-item.focused{
   color: #fff;
   background-color:rgba(195,190,198,0.7);
+}
+
+input{
+   color: black;
 }
