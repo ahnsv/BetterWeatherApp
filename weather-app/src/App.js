@@ -14,7 +14,8 @@ class App extends Component {
       temperature: undefined,
       humidity: undefined,
       wind: undefined,
-      format: 'C'
+      format: 'C',
+      weather: ''
     };
   }
   static defaultProps = {
@@ -53,6 +54,7 @@ class App extends Component {
          high: data.main.temp_max,
          humidity: data.main.humidity,
          wind: data.wind.speed,
+         weather: data.weather[0]
        });
      })
      .catch( function() {
@@ -98,6 +100,8 @@ class App extends Component {
           this._getWeatherInfo(event.target.search.value);
         };
   render() {
+    let hr = (new Date).getHours()
+    let tod = (hr >= 17) ? 'night' : 'day';
     const {
           city,
           country,
@@ -108,15 +112,16 @@ class App extends Component {
           humidity,
           wind,
           infoStatus,
-          format
+          format,
+          weather
         } = this.state;
         let data = null;
         if (infoStatus == 'loaded') {
          data = <div>
              <h1>
-               {description} in {city}
+               {description} in {city} <i className={'wi wi-owm-' + tod + '-' + this.state.weather.id}></i>
              </h1>
-             <WeatherIcons name="cloud" size="2x" />
+
              <h2>Current: {temperature} {format}</h2>
              <h3>Low: {low}{format} High: {high}{format}</h3>
              <p>Humidity: {humidity}%  </p>

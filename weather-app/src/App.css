@@ -45,3 +45,8 @@ button {
       }
       outline: none;
     }
+
+ i{
+   width: 100px;
+   height: 100px;
+}
