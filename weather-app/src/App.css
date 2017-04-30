@@ -12,8 +12,7 @@
   font-size: 17px;
   line-height: 200%;
   color: white;
-  padding-top: 25px;
-  padding-left: 20px;
+  padding: 15px;
   background-color:rgba(6,116,173,0.5);
   z-index: 1;
 }
@@ -55,14 +54,28 @@
    height: 50%;
 }
 
-button {
+.formatButton {
   margin: 0;
   padding: 1em 2em;
   border: 0;
   color: #fff;
-  background: #142B58;
-  font-size: 17px;
+  background-color:rgba(90,106,138,0.7);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: none;
   outline: none;
+}
+
+button {
+  padding: 1em 2em;
+  position: absolute;
+  border: 0;
+  color: #fff;
+  background-color:rgba(20,43,88,0.7);
+  border-radius: 10px;
+  font-size: 20px;
+  outline: none;
+  z-index: 1;
 }
 
 i{

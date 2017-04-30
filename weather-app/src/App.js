@@ -8,6 +8,7 @@ import './App.css';
 
 
 class App extends Component {
+
    constructor(props) {
     super(props);
     this.state = {
@@ -38,10 +39,12 @@ class App extends Component {
     this.fetchWeather = this.fetchWeather.bind(this);
   }
 
+  //function for toggling slide panel
    _toggleDiv() {
     $(this.refs['toggle-div']).slideToggle();
   }
 
+  //function for handling button click event
   clicked(val, index) {
     if (this.state.toggle == true && this.state.index == index) {
       this.setState({toggle: false});
@@ -51,7 +54,7 @@ class App extends Component {
       this.setState({toggle: true});
       this._toggleDiv();
     }
-    this.setState({weather: val, index: index});
+    this.setState({index: index});
     console.log(val);
   }
 
@@ -229,15 +232,20 @@ class App extends Component {
      };
 
    _handleSubmit = (event) => {
+    if (this.state.toggle == false) {
+      this.setState({toggle: true});
+      this._toggleDiv();
+    }
     event.preventDefault();
     this._getWeatherInfo(event.target.search.value);
     this.fetchWeather(event.target.search.value);
     this.changeTimeFormat();
    };
+
   render() {
+    var self = this;
     let hr = (new Date).getHours()
     let tod = (hr >= 17) ? 'night' : 'day';
-    var self = this;
 
     var appHeader = {
       backgroundImage: `url(sf.jpg)`,
@@ -261,16 +269,17 @@ class App extends Component {
           <h2>
             {description} in {city}, {country} <i className={'wi wi-owm-' + tod + '-' + this.state.weather.id}></i><p>Current: {temperature} ˚{format}</p>
           </h2>
-          <h3>Low: {low} ˚{format} High: {high} ˚{format}</h3>
-          <p>Humidity: {humidity}%  </p>
-          <p>Wind Speed: {wind} mi/hr  </p>
-          <p>Pressure: {pressure} mb  </p>
-          <p>Visibility: {visibility} m </p>
-          <p>Clouds: {clouds}  </p>
-          <p changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunrise}>Sunrise: {sunrise} </p>
-          <p changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunset}>Sunset: {sunset} </p>
+          <h4>Low: {low} ˚{format} High: {high} ˚{format}</h4>
+          <h4>Humidity: {humidity}%  </h4>
+          <h4>Wind Speed: {wind} mi/hr  </h4>
+          <h4>Pressure: {pressure} mb  </h4>
+          <h4>Visibility: {visibility} m </h4>
+          <h4>Clouds: {clouds}  </h4>
+          <h4 changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunrise}>Sunrise: {sunrise} </h4>
+          <h4 changeTimeFormat={this.changeTimeFormat.bind(this)} sun={sunset}>Sunset: {sunset} </h4>
+          <br></br>
           {temperature &&
-       <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
+          <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
         </b>
         </div>
      } else if (infoStatus == 'loading') {
@@ -323,11 +332,11 @@ class App extends Component {
             <div className="Day-text"> Fri </div>
             <div className="Day-temp"> {day4}°{format} </div>
           </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
+          <div className="Day-item" onClick={self.clicked.bind(self, 52, 6)}>
             <div className="Day-text"> Sat </div>
             <div className="Day-temp"> {day5}°{format} </div>
           </div>
-          <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
+          <div className="Day-item" onClick={self.clicked.bind(self, 52, 7)}>
             <div className="Day-text"> Sun </div>
             <div className="Day-temp"> {day6}°{format} </div>
           </div>
@@ -344,7 +353,7 @@ class SwitchFormat extends React.Component {
   }
 
   render() {
-    return <button value={this.props.format} onClick={this.handleChange.bind(this)}>Change format</button>;
+    return <button className="formatButton" value={this.props.format} onClick={this.handleChange.bind(this)}>Change format</button>;
   }
 }
 
