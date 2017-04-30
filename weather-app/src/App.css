@@ -1,13 +1,36 @@
-/*
-.App {
-  text-align: center;
-  display: inline-block;
-  position: relative;
-}*/
 
 .App {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.Side-panel {
+  position: relative;
+  height: 75%;
+  float: right;
+  font-size: 17px;
+  line-height: 200%;
+  color: white;
+  padding-top: 140px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  background-color:rgba(6,116,173,0.5);
+  z-index: 1;
+}
+
+.City-input {
+  background-color:rgba(0, 0, 0, 0);
+  padding: 5px;
+  border: none;
+  outline:none;
+  border-color: transparent;
+  color: white;
+  font-size:50px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: white;
 }
 
 .App-header {
@@ -34,22 +57,20 @@
 }
 
 button {
+  margin: 0;
+  padding: 1em 2em;
+  border: 0;
+  color: #fff;
+  background: #142B58;
+  font-size: 17px;
+  outline: none;
+}
 
-      margin: 0;
-      padding: 1em 2em;
-      border: 0;
-      color: #fff;
-      background: #142B58;
-      font: {
-        size: 14px;
-      }
-      outline: none;
-    }
-
- i{
+i{
    width: 100px;
    height: 100px;
 }
+
 .App-body {
   display: flex;
   position: absolute;
@@ -66,7 +87,7 @@ button {
 .Day-item {
   display: flex;
   flex-direction: column;
-  width: 14.2857%;
+  width: 14%;
   cursor: pointer;
   background-color:rgba(156,148,160,0.5);
   color: #7B8585;
@@ -86,7 +107,7 @@ button {
 .Day-temp {
   display: flex;
   align-self: center;
-  margin: 30px;
+  margin: 10px;
   font-size: 45px;
   color: white;
 }

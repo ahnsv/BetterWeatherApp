@@ -248,14 +248,8 @@ class App extends Component {
       height: "100%",
       width: "100%",
       padding: "20px"
-   };
-    var iconStyle = {
-      width: "50px",
-      height: "50px",
-      alignSelf: "center",
-      backgroundImage: `url(${icon})`,
-      backgroundRepeat: "no-repeat"
-    };
+    }
+
     // Create a new JavaScript Date object based on the timestamp
    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
     const {city, country, description, temperature, low, high, humidity, wind, infoStatus, format, weather, pressure, visibility, clouds, sunrise, sunset, forecast} = this.state;
@@ -302,7 +296,13 @@ class App extends Component {
                     </form>
                     </span>
                     </h1>
-                  {data}
+              </div>
+              <div className="Side-panel" ref="toggle-div">
+                <Grid>
+                  <Row>
+                    {data}
+                  </Row>
+                </Grid>
               </div>
               <div className="App-body">
                 <div className="Day-item" onClick={self.clicked.bind(self, 27, 1)}>
