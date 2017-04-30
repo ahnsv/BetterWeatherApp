@@ -59,7 +59,7 @@
   padding: 1em 2em;
   border: 0;
   color: #fff;
-  background-color:rgba(90,106,138,0.7);
+  background-color:rgba(20,43,88,0.6);
   border-radius: 10px;
   font-size: 11px;
   font-weight: none;
@@ -71,11 +71,20 @@ button {
   position: absolute;
   border: 0;
   color: #fff;
-  background-color:rgba(20,43,88,0.7);
+  background-color:rgba(20,43,88,0.6);
   border-radius: 10px;
   font-size: 20px;
   outline: none;
   z-index: 1;
+}
+
+button:hover {
+  background-color:rgba(20,43,88,0.4);
+}
+
+button.focused{
+  color: #fff;
+  background-color:rgba(20,43,88,0.4);
 }
 
 i{
@@ -104,7 +113,9 @@ i{
   background-color:rgba(156,148,160,0.5);
   color: #7B8585;
   transition: 0.3s;
-  margin: 1px;
+  margin-top: 1px;
+  margin-left: 1px;
+  margin-right: 1px;
 }
 
 .Day-text {

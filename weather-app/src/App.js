@@ -297,7 +297,7 @@ class App extends Component {
               className="City-input"
               type="text"
               name="search"
-              placeholder="Search a city"
+              placeholder={this.state.city + ", " + this.state.country}
             />
             <button type="submit" bsSize="xsmall">Search</button>
           </form>
