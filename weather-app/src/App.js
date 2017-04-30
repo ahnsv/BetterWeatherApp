@@ -281,61 +281,57 @@ class App extends Component {
    //   console.log({forecast});
     return (
       <div className="App">
-          <div className="App-header" style={appHeader}>
-            <div className="City-text">
-              <div className="weatherQuery">
-                    <h1><span>
-                    <form className="input" onSubmit={this._handleSubmit}>
-                      <input
-                        className="City-input"
-                        type="text"
-                        name="search"
-                        placeholder="Search a city"
-                      />
-                      <button type="submit" bsSize="xsmall">Search</button>
-                    </form>
-                    </span>
-                    </h1>
-              </div>
-              <div className="Side-panel" ref="toggle-div">
-                <Grid>
-                  <Row>
-                    {data}
-                  </Row>
-                </Grid>
-              </div>
-              <div className="App-body">
-                <div className="Day-item" onClick={self.clicked.bind(self, 27, 1)}>
-                  <div className="Day-text"> Mon </div>
-                  <div className="Day-temp"> {temperature}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 55, 2)}>
-                  <div className="Day-text"> Tue </div>
-                  <div className="Day-temp"> {day1}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 45, 3)}>
-                  <div className="Day-text"> Wed </div>
-                  <div className="Day-temp"> {day2}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 47, 4)}>
-                  <div className="Day-text"> Thu </div>
-                  <div className="Day-temp"> {day3}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
-                  <div className="Day-text"> Fri </div>
-                  <div className="Day-temp"> {day4}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
-                  <div className="Day-text"> Sat </div>
-                  <div className="Day-temp"> {day5}°{format} </div>
-                </div>
-                <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
-                  <div className="Day-text"> Sun </div>
-                  <div className="Day-temp"> {day6}°{format} </div>
-                </div>
-              </div>
-            </div>
+        <div className="App-header" style={appHeader}>
+          <h1><span>
+          <form onSubmit={this._handleSubmit}>
+            <input
+              className="City-input"
+              type="text"
+              name="search"
+              placeholder="Search a city"
+            />
+            <button type="submit" bsSize="xsmall">Search</button>
+          </form>
+          </span>
+          </h1>
+        </div>
+        <div className="Side-panel" ref="toggle-div">
+          <Grid>
+            <Row>
+              {data}
+            </Row>
+          </Grid>
+        </div>
+        <div className="App-body">
+          <div className="Day-item" onClick={self.clicked.bind(self, 27, 1)}>
+            <div className="Day-text"> Mon </div>
+            <div className="Day-temp"> {temperature}°{format} </div>
           </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 55, 2)}>
+            <div className="Day-text"> Tue </div>
+            <div className="Day-temp"> {day1}°{format} </div>
+          </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 45, 3)}>
+            <div className="Day-text"> Wed </div>
+            <div className="Day-temp"> {day2}°{format} </div>
+          </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 47, 4)}>
+            <div className="Day-text"> Thu </div>
+            <div className="Day-temp"> {day3}°{format} </div>
+          </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
+            <div className="Day-text"> Fri </div>
+            <div className="Day-temp"> {day4}°{format} </div>
+          </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
+            <div className="Day-text"> Sat </div>
+            <div className="Day-temp"> {day5}°{format} </div>
+          </div>
+          <div className="Day-item" onClick={self.clicked.bind(self, 52, 5)}>
+            <div className="Day-text"> Sun </div>
+            <div className="Day-temp"> {day6}°{format} </div>
+          </div>
+        </div>
       </div>
     );
   }
