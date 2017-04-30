@@ -14,7 +14,7 @@ class App extends Component {
       temperature: undefined,
       humidity: undefined,
       wind: undefined,
-      activePlace: 0
+      format: 'C'
     };
   }
   static defaultProps = {
@@ -62,6 +62,34 @@ class App extends Component {
      })
    };
 
+   changeFormat(format) {
+
+       let temperature = 0;
+       let low = 0;
+       let high = 0;
+       let newFormat = '';
+
+       if (format === 'C') {
+         temperature = (this.state.temperature * (9/5) + 32).toFixed(2);
+         low = (this.state.low * (9/5) + 32).toFixed(2);
+         high = (this.state.high * (9/5) + 32).toFixed(2);
+         newFormat = 'F';
+       } else {
+         temperature = ((this.state.temperature - 32) * (5/9)).toFixed(2);
+         low = ((this.state.low - 32) * (5/9)).toFixed(2);
+         high = ((this.state.high - 32) * (5/9)).toFixed(2);
+         newFormat = 'C';
+       }
+
+       this.setState({
+         format: newFormat,
+         temperature: temperature,
+         low: low,
+         high: high
+       });
+     }
+
+
       componentWillMount() {
           this._getWeatherInfo();
         };
@@ -70,7 +98,6 @@ class App extends Component {
           this._getWeatherInfo(event.target.search.value);
         };
   render() {
-    const activePlace = this.state.activePlace;
     const {
           city,
           country,
@@ -81,6 +108,7 @@ class App extends Component {
           humidity,
           wind,
           infoStatus,
+          format
         } = this.state;
         let data = null;
         if (infoStatus == 'loaded') {
@@ -89,10 +117,12 @@ class App extends Component {
                {description} in {city}
              </h1>
              <WeatherIcons name="cloud" size="2x" />
-             <h2>Current: {temperature}°C</h2>
-             <h3>Low: {low}°C High: {high}°C</h3>
+             <h2>Current: {temperature} {format}</h2>
+             <h3>Low: {low}{format} High: {high}{format}</h3>
              <p>Humidity: {humidity}%  </p>
              <p>Wind Speed: {wind} mi/hr  </p>
+             {temperature &&
+          <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
            </div>
         } else if (infoStatus == 'loading') {
           data = <div className="info loading">Loading weather data...</div>
@@ -129,5 +159,17 @@ class App extends Component {
     );
   }
 }
+
+class SwitchFormat extends React.Component {
+
+  handleChange(e) {
+    this.props.changeFormat(e.target.value);
+  }
+
+  render() {
+    return <button value={this.props.format} onClick={this.handleChange.bind(this)}>Change format</button>;
+  }
+}
+
 
 export default App;
