@@ -19,6 +19,7 @@ class App extends Component {
       wind: undefined,
       format: 'C',
       weather: '',
+      image: './sf.jpg',
       toggle: true,
       index: 1,
       pressure: undefined,
@@ -59,21 +60,36 @@ class App extends Component {
   }
 
   setCity(city) {
-  this.setState({city: city});
-  if (city == "San Francisco, CA") {
-    this.setState({image: './sf.jpg'})
+    this.setState({city: city});
+    var today = new Date();
+    var curHr = today.getHours();
+    if (curHr < 12) {
+      if (city == "Boston") {
+        this.setState({image: './images/boston_morning.jpg'});
+      }
+      else if (city == "San Francisco") {
+        this.setState({image: './sf.jpg'});
+      }
+      else {
+        this.setState({image: './images/newyork_morning.jpg'});
+      }
+    }  else {
+      if (city == "Boston") {
+        this.setState({image: './images/boston_evening.jpg'});
+      }
+      else if (city == "San Fracisco") {
+        this.setState({image: './sf.jpg'});
+      }
+      else {
+        this.setState({image: './images/newyork_evening.jpg'});
+      }
+    }
+    console.log("city set to " + city);
   }
-  else if (city == "Boston, MA") {
-
-  }
-  else {
-
-  }
-  console.log("city set to" + city);
-}
 
    static defaultProps = {
       city: 'Boston',
+      image: './sf.jpg'
     };
 
    _getWeatherInfo = (city) => {
@@ -250,7 +266,7 @@ class App extends Component {
       this.setState({toggle: true});
       this._toggleDiv();
     }
-    console.log(event.target.search.value);
+    this.setCity(event.target.search.value);
     event.preventDefault();
     this._getWeatherInfo(event.target.search.value);
     this.fetchWeather(event.target.search.value);
@@ -263,7 +279,7 @@ class App extends Component {
     let tod = (hr >= 17) ? 'night' : 'day';
 
     var appHeader = {
-      backgroundImage: `url(sf.jpg)`,
+      backgroundImage: 'url(' + this.state.image + ')',
       backgroundSize: "cover",
       position: "absolute",
       display: "flex",
