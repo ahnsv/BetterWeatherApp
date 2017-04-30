@@ -5,10 +5,9 @@
 }
 
 .Side-panel {
-  position: relative;
-  margin: 0 70%;
+  position: absolute;
   height: 75%;
-  width: 50%;
+  right: 0px;
   font-size: 17px;
   line-height: 200%;
   color: white;

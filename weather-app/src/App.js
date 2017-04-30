@@ -58,6 +58,20 @@ class App extends Component {
     console.log(val);
   }
 
+  setCity(city) {
+  this.setState({city: city});
+  if (city == "San Francisco, CA") {
+    this.setState({image: './sf.jpg'})
+  }
+  else if (city == "Boston, MA") {
+
+  }
+  else {
+
+  }
+  console.log("city set to" + city);
+}
+
    static defaultProps = {
       city: 'Boston',
     };
@@ -236,6 +250,7 @@ class App extends Component {
       this.setState({toggle: true});
       this._toggleDiv();
     }
+    console.log(event.target.search.value);
     event.preventDefault();
     this._getWeatherInfo(event.target.search.value);
     this.fetchWeather(event.target.search.value);
@@ -305,11 +320,7 @@ class App extends Component {
           </h1>
         </div>
         <div className="Side-panel" ref="toggle-div">
-          <Grid>
-            <Row>
-              {data}
-            </Row>
-          </Grid>
+          {data}
         </div>
         <div className="App-body">
           <div className="Day-item" onClick={self.clicked.bind(self, 27, 1)}>
