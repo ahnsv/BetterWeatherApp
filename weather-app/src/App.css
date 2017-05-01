@@ -1,4 +1,3 @@
-
 .App {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -14,6 +13,8 @@
   padding: 15px;
   background-color:rgba(6,116,173,0.5);
   z-index: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .City-input {
@@ -87,8 +88,8 @@ button.focused{
 }
 
 i{
-   width: 100px;
-   height: 100px;
+   width: 200px;
+   height: 50px;
 }
 
 .App-body {
@@ -145,4 +146,14 @@ i{
 
 input{
    color: black;
+}
+
+iframe{
+   top: 20px;
+}
+
+#day1icon {
+   color: white;
+   display: flex;
+   align-self: flex-start;
 }
