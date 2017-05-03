@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import "bootswatch/cosmo/bootstrap.css";
-import { PageHeader, Button, OverlayTrigger, Popover, Grid, Row, Col } from "react-bootstrap";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 import icon from '../public/cloud.png';
 import $ from 'jquery';
 import './App.css';
@@ -28,13 +28,41 @@ class App extends Component {
       sunrise: undefined,
       sunset: undefined,
       forecast: {
-         day1: undefined,
-         day2: undefined,
-         day3: undefined,
-         day4: undefined,
-         day5: undefined,
-         day6: undefined,
-         day7: undefined
+         day1: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day2: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day3: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day4: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day5: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day6: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         },
+         day7: {
+            day: undefined,
+            min: undefined,
+            max: undefined
+         }
       },
       coord: {
          lat: undefined,
@@ -51,13 +79,13 @@ class App extends Component {
   }
 
   clicked(val, index) {
-    if (this.state.toggle == true && this.state.index == index) {
+    if (this.state.toggle === true && this.state.index === index) {
       this.setState({
          toggle: false
       });
       this._toggleDiv();
     }
-    if (this.state.toggle == false && this.state.idex != index) {
+    if (this.state.toggle === false && this.state.idex !== index) {
       this.setState({
          toggle: true
       });
@@ -73,21 +101,21 @@ class App extends Component {
     var curHr = today.getHours();
     console.log(curHr);
     if (curHr < 12) {
-      if (city == "Boston") {
+      if (city === "Boston") {
         this.setState({image: './boston_morning.jpg'});
       }
-      else if (city == "San Francisco") {
+      else if (city === "San Francisco") {
         this.setState({image: './sf.jpg'});
       }
       else {
         this.setState({image: './newyork_morning.jpg'});
       }
     }  else {
-      if (city == "Boston") {
+      if (city === "Boston") {
          console.log("Boston Evening");
         this.setState({image: './boston_evening.jpg'});
       }
-      else if (city == "San Fracisco") {
+      else if (city === "San Fracisco") {
         this.setState({image: './sf.jpg'});
       }
       else {
@@ -108,7 +136,7 @@ class App extends Component {
      main.setState({
          infoStatus: 'loading'
      });
-     if (!city || city == '') {
+     if (!city || city === '') {
        query = this.props.city;
      } else {
        query = city;
@@ -160,7 +188,7 @@ class App extends Component {
       main.setState({
           infoStatus: 'loading'
       });
-      if (!city || city == '') {
+      if (!city || city === '') {
         query = this.props.city;
       } else {
         query = city ;
@@ -183,13 +211,41 @@ class App extends Component {
          //   console.log(response.list);
            main.setState({
              forecast: {
-                day1: response.list[0].temp.day,
-                day2: response.list[1].temp.day,
-                day3: response.list[2].temp.day,
-                day4: response.list[3].temp.day,
-                day5: response.list[4].temp.day,
-                day6: response.list[5].temp.day,
-                day7: response.list[6].temp.day
+                day1: {
+                   day: response.list[0].temp.day,
+                   min: response.list[0].temp.min,
+                   max: response.list[0].temp.max
+                },
+                day2: {
+                   day: response.list[1].temp.day,
+                   min: response.list[1].temp.min,
+                   max: response.list[1].temp.max
+                },
+                day3: {
+                   day: response.list[2].temp.day,
+                   min: response.list[2].temp.min,
+                   max: response.list[2].temp.max
+                },
+                day4: {
+                   day: response.list[3].temp.day,
+                   min: response.list[3].temp.min,
+                   max: response.list[3].temp.max
+                },
+                day5: {
+                   day: response.list[4].temp.day,
+                   min: response.list[4].temp.min,
+                   max: response.list[4].temp.max
+                },
+                day6: {
+                   day: response.list[5].temp.day,
+                   min: response.list[5].temp.min,
+                   max: response.list[5].temp.max
+                },
+                day7: {
+                   day: response.list[6].temp.day,
+                   min: response.list[6].temp.min,
+                   max: response.list[6].temp.max
+                }
           }})
        })
       .catch( function() {
@@ -222,7 +278,7 @@ class App extends Component {
       main.setState({
           infoStatus: 'loading'
       });
-      if (!city || city == '') {
+      if (!city || city === '') {
         query = this.props.city;
       } else {
         query = city ;
@@ -255,32 +311,60 @@ class App extends Component {
 
    changeFormat(format) {
 
-       let temperature, low, high, day1, day2, day3, day4, day5, day6, day7 = 0;
+       let temperature, low, high, day1, day2, day3, day4, day5, day6, day7, min1, min2, min3, min4, min5, min6, min7, max1, max2, max3, max4, max5, max6, max7 = 0;
        let newFormat = '';
 
        if (format === 'C') {
          temperature = (this.state.temperature * (9/5) + 32).toFixed(2);
          low = (this.state.low * (9/5) + 32).toFixed(2);
          high = (this.state.high * (9/5) + 32).toFixed(2);
-         day1 = (this.state.forecast.day1 * (9/5) + 32).toFixed(2);
-         day2 = (this.state.forecast.day2 * (9/5) + 32).toFixed(2);
-         day3 = (this.state.forecast.day3 * (9/5) + 32).toFixed(2);
-         day4 = (this.state.forecast.day4 * (9/5) + 32).toFixed(2);
-         day5 = (this.state.forecast.day5 * (9/5) + 32).toFixed(2);
-         day6 = (this.state.forecast.day6 * (9/5) + 32).toFixed(2);
-         day7 = (this.state.forecast.day7 * (9/5) + 32).toFixed(2);
+         day1 = (this.state.forecast.day1.day * (9/5) + 32).toFixed(2);
+         day2 = (this.state.forecast.day2.day * (9/5) + 32).toFixed(2);
+         day3 = (this.state.forecast.day3.day * (9/5) + 32).toFixed(2);
+         day4 = (this.state.forecast.day4.day * (9/5) + 32).toFixed(2);
+         day5 = (this.state.forecast.day5.day * (9/5) + 32).toFixed(2);
+         day6 = (this.state.forecast.day6.day * (9/5) + 32).toFixed(2);
+         day7 = (this.state.forecast.day7.day * (9/5) + 32).toFixed(2);
+         min1 = (this.state.forecast.day1.min * (9/5) + 32).toFixed(2);
+         min2 = (this.state.forecast.day2.min * (9/5) + 32).toFixed(2);
+         min3 = (this.state.forecast.day3.min * (9/5) + 32).toFixed(2);
+         min4 = (this.state.forecast.day4.min * (9/5) + 32).toFixed(2);
+         min5 = (this.state.forecast.day5.min * (9/5) + 32).toFixed(2);
+         min6 = (this.state.forecast.day6.min * (9/5) + 32).toFixed(2);
+         min7 = (this.state.forecast.day7.min * (9/5) + 32).toFixed(2);
+         max1 = (this.state.forecast.day1.max * (9/5) + 32).toFixed(2);
+         max2 = (this.state.forecast.day2.max * (9/5) + 32).toFixed(2);
+         max3 = (this.state.forecast.day3.max * (9/5) + 32).toFixed(2);
+         max4 = (this.state.forecast.day4.max * (9/5) + 32).toFixed(2);
+         max5 = (this.state.forecast.day5.max * (9/5) + 32).toFixed(2);
+         max6 = (this.state.forecast.day6.max * (9/5) + 32).toFixed(2);
+         max7 = (this.state.forecast.day7.max * (9/5) + 32).toFixed(2);
          newFormat = 'F';
        } else {
          temperature = ((this.state.temperature - 32) * (5/9)).toFixed(2);
          low = ((this.state.low - 32) * (5/9)).toFixed(2);
          high = ((this.state.high - 32) * (5/9)).toFixed(2);
-         day1 = ((this.state.forecast.day1 - 32) * (5/9)).toFixed(2);
-         day2 = ((this.state.forecast.day2 - 32) * (5/9)).toFixed(2);
-         day3 = ((this.state.forecast.day3 - 32) * (5/9)).toFixed(2);
-         day4 = ((this.state.forecast.day4 - 32) * (5/9)).toFixed(2);
-         day5 = ((this.state.forecast.day5 - 32) * (5/9)).toFixed(2);
-         day6 = ((this.state.forecast.day6 - 32) * (5/9)).toFixed(2);
-         day7 = ((this.state.forecast.day7 - 32) * (5/9)).toFixed(2);
+         day1 = ((this.state.forecast.day1.day - 32) * (5/9)).toFixed(2);
+         day2 = ((this.state.forecast.day2.day - 32) * (5/9)).toFixed(2);
+         day3 = ((this.state.forecast.day3.day - 32) * (5/9)).toFixed(2);
+         day4 = ((this.state.forecast.day4.day - 32) * (5/9)).toFixed(2);
+         day5 = ((this.state.forecast.day5.day - 32) * (5/9)).toFixed(2);
+         day6 = ((this.state.forecast.day6.day - 32) * (5/9)).toFixed(2);
+         day7 = ((this.state.forecast.day7.day - 32) * (5/9)).toFixed(2);
+         min1 = ((this.state.forecast.day1.min - 32) * (5/9)).toFixed(2);
+         min2 = ((this.state.forecast.day2.min - 32) * (5/9)).toFixed(2);
+         min3 = ((this.state.forecast.day3.min - 32) * (5/9)).toFixed(2);
+         min4 = ((this.state.forecast.day4.min - 32) * (5/9)).toFixed(2);
+         min5 = ((this.state.forecast.day5.min - 32) * (5/9)).toFixed(2);
+         min6 = ((this.state.forecast.day6.min - 32) * (5/9)).toFixed(2);
+         min7 = ((this.state.forecast.day7.min - 32) * (5/9)).toFixed(2);
+         max1 = ((this.state.forecast.day1.max - 32) * (5/9)).toFixed(2);
+         max2 = ((this.state.forecast.day2.max - 32) * (5/9)).toFixed(2);
+         max3 = ((this.state.forecast.day3.max - 32) * (5/9)).toFixed(2);
+         max4 = ((this.state.forecast.day4.max - 32) * (5/9)).toFixed(2);
+         max5 = ((this.state.forecast.day5.max - 32) * (5/9)).toFixed(2);
+         max6 = ((this.state.forecast.day6.max - 32) * (5/9)).toFixed(2);
+         max7 = ((this.state.forecast.day7.max - 32) * (5/9)).toFixed(2);
          newFormat = 'C';
        }
 
@@ -290,13 +374,41 @@ class App extends Component {
          low: low,
          high: high,
          forecast: {
-            day1: day1,
-            day2: day2,
-            day3: day3,
-            day4: day4,
-            day5: day5,
-            day6: day6,
-            day7: day7
+            day1: {
+               day: day1,
+               min: min1,
+               max: max1
+            },
+            day2: {
+               day: day2,
+               min: min2,
+               max: max2
+            },
+            day3: {
+               day: day3,
+               min: min3,
+               max: max3
+            },
+            day4: {
+               day: day4,
+               min: min4,
+               max: max4
+            },
+            day5: {
+               day: day5,
+               min: min5,
+               max: max5
+            },
+            day6: {
+               day: day6,
+               min: min6,
+               max: max6
+            },
+            day7: {
+               day: day7,
+               min: min7,
+               max: max7
+            }
          }
        })
      }
@@ -309,7 +421,7 @@ class App extends Component {
 
    _handleSubmit = (event) => {
 
-    if (this.state.toggle == false) {
+    if (this.state.toggle === false) {
       this.setState({toggle: true});
       this._toggleDiv();
     }
@@ -331,23 +443,71 @@ class App extends Component {
     let data = null;
     let hr = (new Date).getHours()
     let tod = (hr >= 17) ? 'night' : 'day';
-    // Need to fix days
-    var d = new Date();
-    var weekday = new Array(7);
-    weekday[0] = "Sun";
-    weekday[1] = "Mon";
-    weekday[2] = "Tue";
-    weekday[3] = "Wed";
-    weekday[4] = "Thu";
-    weekday[5] = "Fri";
-    weekday[6] = "Sat";
-    var n = weekday[d.getDay()];
-    var n2 = weekday[d.getDay()+1];
-    var n3 = weekday[d.getDay()+2];
-    var n4 = weekday[d.getDay()+3];
-    var n5 = weekday[d.getDay()+4];
-    var n6 = weekday[d.getDay()+5];
-    var n7 = weekday[d.getDay()-1];
+    // dealing with date/time/month
+    let d = new Date();
+    let date = d.getDate();
+    let strDate = date.toString();
+    let m = d.getMonth();
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+   //  let month = months[m];
+    let day = d.getDay();
+    let num;
+    let weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+
+    function daylist(day, num){
+      // console.log("date: ", day, "num: ", num, "date+num: ", day+num);
+      if (day + num > 6) {
+         num = (day+num) % 7;
+         // console.log("updated num: ", num);
+         return weekday[num];
+      }
+      return weekday[day + num];
+   };
+
+    var n = daylist(date, 0);
+    var n2 = daylist(date, 1);
+    var n3 = daylist(date, 2);
+    var n4 = daylist(date, 3);
+    var n5 = daylist(date, 4);
+    var n6 = daylist(date, 5);
+    var n7 = daylist(date, 6);
+
+    num = 0;
+
+    function dateHandler(date, num) {
+       let result = "";
+      //  console.log(months[m]);
+       switch (months[m]){
+          case "Jan" || "Mar" || "May" || "Jul" || "Aug" || "Oct" || "Dec":
+             if (date + num > 31) m++;
+             break;
+          case "Apr" || "Jun" || "Sep" || "Nov":
+             if (date + num > 30) m++;
+             break;
+          case "Feb":
+             if (date + num > 29) m++;
+             break;
+       }
+       let temp = date+num;
+       strDate = temp.toString();
+       if (date+num == 1) strDate = strDate + "st";
+       if (date+num == 2) strDate = strDate + "nd";
+       if (date+num == 3) strDate = strDate + "rd";
+       else strDate = strDate + "th";
+       result = months[m] + " " + strDate;
+      //  console.log("result: ", result);
+       return result;
+    }
+
+    var d1 = dateHandler(date, 1);
+    var d2 = dateHandler(date, 2);
+    var d3 = dateHandler(date, 3);
+    var d4 = dateHandler(date, 4);
+    var d5 = dateHandler(date, 5);
+    var d6 = dateHandler(date, 6);
+    var d7 = dateHandler(date, 7);
+
 
     var appHeader = {
       backgroundImage: 'url(' + this.state.image + ')',
@@ -368,52 +528,52 @@ class App extends Component {
     };
 
     const popoverTop = (
-     <Popover id="popover-positioned-top" title="May 1st">
-       <strong>Average: {day1}</strong><br />
-       High: {day1} Low: {day2}
+     <Popover id="popover-positioned-top" title={d1}>
+       <strong>Average: {day1.day}°{format}</strong><br />
+       High: {day1.max}°{format} Low: {day1.min}°{format}
      </Popover>
    );
    const popoverTop2 = (
-    <Popover id="popover-positioned-top" title="May 2nd">
-      <strong>Average: {day2}</strong><br />
-      High: {day1} Low: {day2}
+    <Popover id="popover-positioned-top" title={d2}>
+      <strong>Average: {day2.day}°{format}</strong><br />
+      High: {day2.max}°{format} Low: {day2.min}°{format}
     </Popover>
   );
    const popoverTop3 = (
-    <Popover id="popover-positioned-top" title="May 3rd">
-      <strong>Average: {day3}</strong><br />
-      High: {day1} Low: {day2}
+    <Popover id="popover-positioned-top" title={d3}>
+      <strong>Average: {day3.day}°{format}</strong><br />
+      High: {day3.max}°{format} Low: {day3.min}°{format}
     </Popover>
   );
    const popoverTop4 = (
-   <Popover id="popover-positioned-top" title="May 4th">
-      <strong>Average: {day4}</strong><br />
-      High: {day1} Low: {day2}
+   <Popover id="popover-positioned-top" title={d4}>
+      <strong>Average: {day4.day}°{format}</strong><br />
+      High: {day4.max}°{format} Low: {day4.min}°{format}
    </Popover>
    );
    const popoverTop5 = (
-   <Popover id="popover-positioned-top" title="May 6th">
-      <strong>Average: {day5}</strong><br />
-      High: {day1} Low: {day2}
+   <Popover id="popover-positioned-top" title={d5}>
+      <strong>Average: {day5.day}°{format}</strong><br />
+      High: {day5.max}°{format} Low: {day5.min}°{format}
    </Popover>
    );
    const popoverTop6 = (
-   <Popover id="popover-positioned-top" title="May 7th">
-      <strong>Average: {day6}</strong><br />
-      High: {day1} Low: {day2}
+   <Popover id="popover-positioned-top" title={d6}>
+      <strong>Average: {day6.day}°{format}</strong><br />
+      High: {day6.max}°{format} Low: {day6.min}°{format}
    </Popover>
    );
    const popoverTop7 = (
-   <Popover id="popover-positioned-top" title="May 8th">
-      <strong>Average: {day7}</strong><br />
-      High: {day1} Low: {day2}
+   <Popover id="popover-positioned-top" title={d7}>
+      <strong>Average: {day7.day}°{format}</strong><br />
+      High: {day7.max}°{format} Low: {day7.min}°{format}
    </Popover>
    );
 
     // Create a new JavaScript Date object based on the timestamp
    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
 
-     if (infoStatus == 'loaded') {
+     if (infoStatus === 'loaded') {
 
       data = <div>
           <h2><b>{description} in {city}, {country} <i id='icon1' className={'wi wi-owm-' + tod + '-' + this.state.weather.id}></i></b><br />Current: {temperature} ˚{format}</h2>
@@ -428,9 +588,9 @@ class App extends Component {
           {temperature &&
        <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
         </div>
-     } else if (infoStatus == 'loading') {
+     } else if (infoStatus === 'loading') {
        data = <div className="info loading">Loading weather data...</div>
-     } else if (infoStatus == 'error') {
+    } else if (infoStatus === 'error') {
        data = <div className="info error">Error while loading weather data. Try again later.</div>
      }
    //   console.log({forecast});
@@ -456,33 +616,33 @@ class App extends Component {
           {data}
         </div>
         <div className="App-body">
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop} onClick={self.clicked.bind(self, day1, 1)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop} onClick={self.clicked.bind(self, day1.day, 1)}>
             <div className="Day-item"><div className="Day-text"> {n} </div>
-            <div className="Day-temp"> {day1}°{format}</div></div>
+            <div className="Day-temp"> {day1.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop2} onClick={self.clicked.bind(self, day2, 2)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop2} onClick={self.clicked.bind(self, day2.day, 2)}>
             <div className="Day-item"><div className="Day-text"> {n2} </div>
-            <div className="Day-temp"> {day2}°{format}</div></div>
+            <div className="Day-temp"> {day2.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop3} onClick={self.clicked.bind(self, day3, 3)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop3} onClick={self.clicked.bind(self, day3.day, 3)}>
             <div className="Day-item"><div className="Day-text"> {n3} </div>
-            <div className="Day-temp"> {day3}°{format}</div></div>
+            <div className="Day-temp"> {day3.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop4} onClick={self.clicked.bind(self, day4, 4)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop4} onClick={self.clicked.bind(self, day4.day, 4)}>
             <div className="Day-item"><div className="Day-text"> {n4} </div>
-            <div className="Day-temp"> {day4}°{format}</div></div>
+            <div className="Day-temp"> {day4.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop5} onClick={self.clicked.bind(self, day5, 5)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop5} onClick={self.clicked.bind(self, day5.day, 5)}>
             <div className="Day-item"><div className="Day-text"> {n5} </div>
-            <div className="Day-temp"> {day5}°{format}</div></div>
+            <div className="Day-temp"> {day5.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop6} onClick={self.clicked.bind(self, day6, 6)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop6} onClick={self.clicked.bind(self, day6.day, 6)}>
             <div className="Day-item"><div className="Day-text"> {n6} </div>
-            <div className="Day-temp"> {day6}°{format}</div></div>
+            <div className="Day-temp"> {day6.day}°{format}</div></div>
           </OverlayTrigger>
-          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop7} onClick={self.clicked.bind(self, day7, 7)}>
+          <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop7} onClick={self.clicked.bind(self, day7.day, 7)}>
             <div className="Day-item"><div className="Day-text"> {n7} </div>
-            <div className="Day-temp"> {day7}°{format}</div></div>
+            <div className="Day-temp"> {day7.day}°{format}</div></div>
           </OverlayTrigger>
         </div>
       </div>
