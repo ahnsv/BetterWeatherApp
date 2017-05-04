@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+# Better Weather App
 
-You can use the [editor on GitHub](https://github.com/ahnsv/WeatherApp/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Better Weather App 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Better React Weather App Powered by Dark Sky and OpenWeatherMap API
 
-### Markdown
+## Overview
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+There are numerous simple but beautiful weather web apps around the world, but we wanted to focus on how to make it more functional, simple, and visually appealing at the same time. Therefore, we decided to combine useful weather tools together and rearrange them in a sophisticated way. Our app showcases weather information using two main APIs, Dark Sky Map API and OpenWeatherMap API. Based on client's input, the app renders its view in which detailed weather information including temperature, high/low, humidity, sunrise/set and so on and weather map shows the specific region with additional visual weather information of adjacent regions. 
 
-```markdown
-Syntax highlighted code block
+### Dark Sky Map API
 
-# Header 1
-## Header 2
-### Header 3
+[The Dark Sky API](https://darksky.net/dev/) allows you to look up the weather anywhere on the globe, returning (where available):
+* Current weather conditions
+* Minute-by-minute forecasts out to one hour
+* Hour-by-hour and day-by-day forecasts out to seven days
+* Hour-by-hour and day-by-day observations going back decades
 
-- Bulleted
-- List
+We implemented Dark Sky API into displaying not only the city user searched, but also adjacent regions. Users can also see a variety of weather variables, such as temperature, Feels-like Temperature, Precipitation Radar, and so on. When users change the city, the map automatically renders and updates the location.
 
-1. Numbered
-2. List
+### OpenWeatherMap API
 
-**Bold** and _Italic_ and `Code` text
+OWM has a simple and clear weather API for developers to pull out:
+* Current weather for more than 200,000 cities, for any location (based on coordination lat/lon)
+* 16 days forecast with daily interval, 5 days forecast with 3 hour interval
+* Multilingual support – English, Russian, Italian, Spanish, German, Portuguese, Dutch, French, Chinese Traditional, Chinese Simplified etc.
 
-[Link](url) and ![Image](src)
-```
+We employed OWM API to pull out the current and next 7-day weather information, based on user’s input. In addition, we tried to change the background image depending on today’s weather of the specific location user put. 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### React-Bootstrap Components
 
-### Jekyll Themes
+React-Bootstrap is a library of reusable front-end components. Bootstrap is the most popular front-end framework, rebuild for React. We used React-Bootstraps’ components using JSX syntax.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ahnsv/WeatherApp/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
