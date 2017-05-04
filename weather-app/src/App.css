@@ -152,8 +152,15 @@ iframe{
    top: 20px;
 }
 
-#day1icon {
+.formatButton{
+   font-size: 15px;
+}
+
+
+#forecasticon1, #forecasticon2, #forecasticon3, #forecasticon4, #forecasticon5, #forecasticon6, #forecasticon7 {
    color: white;
-   display: flex;
-   align-self: flex-start;
+   display: inline-block;
+   width: 100%;
+   text-align: center;
+   font-size: 2em;
 }

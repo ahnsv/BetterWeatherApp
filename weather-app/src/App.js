@@ -31,37 +31,44 @@ class App extends Component {
          day1: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day2: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day3: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day4: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day5: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day6: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          },
          day7: {
             day: undefined,
             min: undefined,
-            max: undefined
+            max: undefined,
+            id: undefined
          }
       },
       coord: {
@@ -106,6 +113,30 @@ class App extends Component {
       }
       else if (city === "San Francisco") {
         this.setState({image: './sf.jpg'});
+      }
+      else if (city === "Chicago") {
+        this.setState({image: './city_photos/chicago_day.jpg'});
+      }
+      else if (city === "Dallas") {
+        this.setState({image: './city_photos/dallas_day.jpg'});
+      }
+      else if (city === "Houston") {
+        this.setState({image: './city_photos/houston_day.jpg'});
+      }
+      else if (city === "Los Angeles") {
+        this.setState({image: './city_photos/LA_day.jpg'});
+      }
+      else if (city === "Philadelphia") {
+        this.setState({image: './city_photos/philly_day.jpg'});
+      }
+      else if (city === "Phoenix") {
+        this.setState({image: './city_photos/phoenix_day.jpg'});
+      }
+      else if (city === "San Diego") {
+        this.setState({image: './city_photos/sandiego_day.jpg'});
+      }
+      else if (city === "Vienna") {
+        this.setState({image: './city_photos/vienna.jpg'});
       }
       else {
         this.setState({image: './newyork_morning.jpg'});
@@ -175,6 +206,26 @@ class App extends Component {
          }
        });
      })
+     .then( function(data) {
+        let sunrise = main.state.sunrise;
+        console.log("sunrise: ", sunrise);
+        let sunset = main.state.sunset;
+        console.log("sunset: ", sunset);
+
+        let Sr = new Date(sunrise*1000);
+        let Srhours = Sr.getHours();
+        let Srmins = "0" + Sr.getMinutes();
+        let formattedTime = Srhours + ':' + Srmins.substr(-2) + " AM";
+        console.log(formattedTime);
+        main.setState({ sunrise: formattedTime});
+
+        let Ss = new Date(sunset*1000);
+        let Sshours = Ss.getHours() - 12;
+        let Ssmins = "0" + Ss.getMinutes();
+        let formattedTime2 = Sshours + ':' + Ssmins.substr(-2) + " PM";
+        console.log(formattedTime2);
+        main.setState({ sunset: formattedTime2});
+     })
      .catch( function() {
        main.setState({
          infoStatus: 'error'
@@ -207,44 +258,51 @@ class App extends Component {
         return response.json();
       })
       .then((response) => {
-           const data = main.state.forecast;
-         //   console.log(response.list);
+         //   const data = main.state.forecast;
+            console.log(response.list);
            main.setState({
              forecast: {
                 day1: {
                    day: response.list[0].temp.day,
                    min: response.list[0].temp.min,
-                   max: response.list[0].temp.max
+                   max: response.list[0].temp.max,
+                   id: response.list[0].weather[0].id
                 },
                 day2: {
                    day: response.list[1].temp.day,
                    min: response.list[1].temp.min,
-                   max: response.list[1].temp.max
+                   max: response.list[1].temp.max,
+                   id: response.list[1].weather[0].id
                 },
                 day3: {
                    day: response.list[2].temp.day,
                    min: response.list[2].temp.min,
-                   max: response.list[2].temp.max
+                   max: response.list[2].temp.max,
+                   id: response.list[2].weather[0].id
                 },
                 day4: {
                    day: response.list[3].temp.day,
                    min: response.list[3].temp.min,
-                   max: response.list[3].temp.max
+                   max: response.list[3].temp.max,
+                   id: response.list[3].weather[0].id
                 },
                 day5: {
                    day: response.list[4].temp.day,
                    min: response.list[4].temp.min,
-                   max: response.list[4].temp.max
+                   max: response.list[4].temp.max,
+                   id: response.list[4].weather[0].id
                 },
                 day6: {
                    day: response.list[5].temp.day,
                    min: response.list[5].temp.min,
-                   max: response.list[5].temp.max
+                   max: response.list[5].temp.max,
+                   id: response.list[5].weather[0].id
                 },
                 day7: {
                    day: response.list[6].temp.day,
                    min: response.list[6].temp.min,
-                   max: response.list[6].temp.max
+                   max: response.list[6].temp.max,
+                   id: response.list[6].weather[0].id
                 }
           }})
        })
@@ -255,19 +313,49 @@ class App extends Component {
       });
     }
 
-   changeTimeFormat(){
-        var date = new Date(this.state.sunrise*1000);
-        var hours = date.getHours();
-        var minutes = "0" + date.getMinutes();
-        var formattedTime = hours + ':' + minutes.substr(-2);
-        this.setState({ sunrise: formattedTime });
-        console.log("formattedTime is: " + formattedTime);
-        var date2 = new Date(this.state.sunset*1000);
-        var hours2 = date2.getHours();
-        var minutes2 = "0" + date2.getMinutes();
-        var formattedTime2 = hours2 + ':' + minutes2.substr(-2);
-        this.setState({ sunset: formattedTime2 });
-        console.log("formattedTime2 is:" + formattedTime2);
+   setSunRiseAndSetTime = (city) => {
+      const main = this;
+      let query = null;
+      main.setState({
+          infoStatus: 'loading'
+      });
+      if (!city || city === '') {
+        query = this.props.city;
+      } else {
+        query = city ;
+      }
+      fetch(`http://api.openweathermap.org/data/2.5/forecast/daily?q=${query},us&units=metric&cnt=7&appid=50a34e070dd5c09a99554b57ab7ea7e2`)
+      .then( function(response) {
+        return response;
+      })
+      .then( function(response) {
+        setTimeout( function() {
+          main.setState({
+          infoStatus: 'loaded'
+        });
+        }, 300);
+        return response.json();
+      })
+      .then((data) => {
+         // console.log(response);
+         let sunrise = data.sys.sunrise;
+         console.log("sunrise: ", sunrise);
+         // let sunset = main.state.sunset;
+         let Sr = new Date(sunrise*1000);
+         let Srhours = Sr.getHours();
+         let Srmins = "0" + Sr.getMinutes();
+         let formattedTime = Srhours + ':' + Srmins.substr(-2) + " AM";
+         this.setState({ sunrise: formattedTime});
+         console.log("this.state.sunrise: ", this.state.sunrise);
+         let sunset = data.sys.sunset;
+         console.log("sunset: ", sunset);
+         let Ss = new Date(sunset*1000);
+         let Sshours = Ss.getHours() - 12;
+         let Ssmins = "0" + Ss.getMinutes();
+         let formattedTime2 = Sshours + ':' + Ssmins.substr(-2) + " PM";
+         this.setState({ sunset: formattedTime2});
+         console.log("this.state.sunset: ", this.state.sunset);
+      });
    }
 
    changeMap(city) {
@@ -312,6 +400,13 @@ class App extends Component {
    changeFormat(format) {
 
        let temperature, low, high, day1, day2, day3, day4, day5, day6, day7, min1, min2, min3, min4, min5, min6, min7, max1, max2, max3, max4, max5, max6, max7 = 0;
+       let id1 = this.state.forecast.day1.id;
+       let id2 = this.state.forecast.day2.id;
+       let id3 = this.state.forecast.day3.id;
+       let id4 = this.state.forecast.day4.id;
+       let id5 = this.state.forecast.day5.id;
+       let id6 = this.state.forecast.day6.id;
+       let id7 = this.state.forecast.day7.id;
        let newFormat = '';
 
        if (format === 'C') {
@@ -377,37 +472,44 @@ class App extends Component {
             day1: {
                day: day1,
                min: min1,
-               max: max1
+               max: max1,
+               id: id1
             },
             day2: {
                day: day2,
                min: min2,
-               max: max2
+               max: max2,
+               id: id2
             },
             day3: {
                day: day3,
                min: min3,
-               max: max3
+               max: max3,
+               id: id3
             },
             day4: {
                day: day4,
                min: min4,
-               max: max4
+               max: max4,
+               id: id4
             },
             day5: {
                day: day5,
                min: min5,
-               max: max5
+               max: max5,
+               id: id5
             },
             day6: {
                day: day6,
                min: min6,
-               max: max6
+               max: max6,
+               id: id6
             },
             day7: {
                day: day7,
                min: min7,
-               max: max7
+               max: max7,
+               id: id7
             }
          }
        })
@@ -429,7 +531,8 @@ class App extends Component {
     event.preventDefault();
     this._getWeatherInfo(event.target.search.value);
     this.fetchWeather(event.target.search.value);
-    this.changeTimeFormat();
+    this.setSunRiseAndSetTime(event.target.search.value);
+   //  this.changeTimeFormat();
    //  this.changeTimeFormat();
     this.changeMap(event.target.search.value);
    };
@@ -439,9 +542,9 @@ class App extends Component {
     const {city, country, description, temperature, low, high, humidity, wind, infoStatus, format, weather, image, toggle,
     index, pressure, visibility, clouds, sunrise, sunset, forecast, coord} = this.state;
     const {day1, day2, day3, day4, day5, day6, day7} = this.state.forecast;
-    const {lat, lon} = this.state.coord
+    const {lat, lon} = this.state.coord;
     let data = null;
-    let hr = (new Date).getHours()
+    let hr = (new Date).getHours();
     let tod = (hr >= 17) ? 'night' : 'day';
     // dealing with date/time/month
     let d = new Date();
@@ -583,8 +686,8 @@ class App extends Component {
           <h4>Pressure: {pressure} mb  </h4>
           <h4>Visibility: {visibility} m </h4>
           <h4>Clouds: {clouds}  </h4>
-          <h4 changeTimeFormat={this.changeTimeFormat.bind(this)}>Sunrise: {sunrise} </h4>
-          <h4 changeTimeFormat={this.changeTimeFormat.bind(this)}>Sunset: {sunset} </h4>
+          <h4>Sunrise: {sunrise} </h4>
+          <h4>Sunset: {sunset} </h4>
           {temperature &&
        <SwitchFormat changeFormat={this.changeFormat.bind(this)} format={format} />}
         </div>
@@ -605,7 +708,7 @@ class App extends Component {
               name="search"
               placeholder={this.state.city + ", " + this.state.country}
             />
-            <button type="submit" bsSize="xsmall">Search</button>
+            <button type="submit">Search</button>
           </form>
           </span>
           <br />
@@ -618,30 +721,37 @@ class App extends Component {
         <div className="App-body">
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop} onClick={self.clicked.bind(self, day1.day, 1)}>
             <div className="Day-item"><div className="Day-text"> {n} </div>
+            <i id="forecasticon1" className={'wi wi-owm-' + tod + '-' + day1.id}></i>
             <div className="Day-temp"> {day1.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop2} onClick={self.clicked.bind(self, day2.day, 2)}>
             <div className="Day-item"><div className="Day-text"> {n2} </div>
+            <i id="forecasticon2" className={'wi wi-owm-' + tod + '-' + day2.id}></i>
             <div className="Day-temp"> {day2.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop3} onClick={self.clicked.bind(self, day3.day, 3)}>
             <div className="Day-item"><div className="Day-text"> {n3} </div>
+            <i id="forecasticon3" className={'wi wi-owm-' + tod + '-' + day3.id}></i>
             <div className="Day-temp"> {day3.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop4} onClick={self.clicked.bind(self, day4.day, 4)}>
             <div className="Day-item"><div className="Day-text"> {n4} </div>
+            <i id="forecasticon4" className={'wi wi-owm-' + tod + '-' + day4.id}></i>
             <div className="Day-temp"> {day4.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop5} onClick={self.clicked.bind(self, day5.day, 5)}>
             <div className="Day-item"><div className="Day-text"> {n5} </div>
+            <i id="forecasticon5" className={'wi wi-owm-' + tod + '-' + day5.id}></i>
             <div className="Day-temp"> {day5.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop6} onClick={self.clicked.bind(self, day6.day, 6)}>
             <div className="Day-item"><div className="Day-text"> {n6} </div>
+            <i id="forecasticon6" className={'wi wi-owm-' + tod + '-' + day6.id}></i>
             <div className="Day-temp"> {day6.day}°{format}</div></div>
           </OverlayTrigger>
           <OverlayTrigger  trigger={['hover', 'focus']} placement="top" overlay={popoverTop7} onClick={self.clicked.bind(self, day7.day, 7)}>
             <div className="Day-item"><div className="Day-text"> {n7} </div>
+            <i id="forecasticon7" className={'wi wi-owm-' + tod + '-' + day7.id}></i>
             <div className="Day-temp"> {day7.day}°{format}</div></div>
           </OverlayTrigger>
         </div>
