@@ -138,6 +138,12 @@ class App extends Component {
       else if (city === "Vienna") {
         this.setState({image: './city_photos/vienna.jpg'});
       }
+      else if (city === "San Antonio") {
+        this.setState({image: './city_photos/sanantonio_day.JPG'});
+      }
+      else if (city === "San Jose") {
+        this.setState({image: './city_photos/sanjose_day.png'});
+      }
       else {
         this.setState({image: './newyork_morning.jpg'});
       }
@@ -148,6 +154,36 @@ class App extends Component {
       }
       else if (city === "San Fracisco") {
         this.setState({image: './sf.jpg'});
+      }
+      else if (city === "Chicago") {
+        this.setState({image: './city_photos/chicago_day.jpg'});
+      }
+      else if (city === "Dallas") {
+        this.setState({image: './city_photos/dallas_day.jpg'});
+      }
+      else if (city === "Houston") {
+        this.setState({image: './city_photos/houston_day.jpg'});
+      }
+      else if (city === "Los Angeles") {
+        this.setState({image: './city_photos/LA_day.jpg'});
+      }
+      else if (city === "Philadelphia") {
+        this.setState({image: './city_photos/philly_day.jpg'});
+      }
+      else if (city === "Phoenix") {
+        this.setState({image: './city_photos/phoenix_day.jpg'});
+      }
+      else if (city === "San Diego") {
+        this.setState({image: './city_photos/sandiego_day.jpg'});
+      }
+      else if (city === "Vienna") {
+        this.setState({image: './city_photos/vienna.jpg'});
+      }
+      else if (city === "San Antonio") {
+        this.setState({image: './city_photos/sanantonio_day.JPG'});
+      }
+      else if (city === "San Jose") {
+        this.setState({image: './city_photos/sanjose_day.png'});
       }
       else {
         this.setState({image: './newyork_evening.jpg'});
